@@ -5,16 +5,16 @@ import pygame
 import time, os, json, sys, datetime
 
 from env import Env
-from objects import Objects
+from items import Items
 
 env = Env()
-objects = Objects()
+items = Items()
 
 running = True
 while running:
 	controls = env.getControls()
-	objects.updateByControls(controls)
-	env.displayObjects(objects.getObjects())
+	items.updateByControls(controls)
+	env.displayItems(items.getItems())
 	env.delay()
 	running = not(env.hasExitEvent(controls))
 

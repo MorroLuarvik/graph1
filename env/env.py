@@ -1,26 +1,30 @@
-import os, json, pygame, sys
+import os, json, pygame, sys, time
 
 class Env:
 	FONT_PATH = "/res/fonts/tahoma.ttf"
 	DEF_WIDTH = 800
 	DEF_HEIGHT = 600
+	FPS = 60;
+
+	prevTimeMark = time.time()
+	timeDelta = 0.1
 
 	def __init__(self):
 		pygame.init()
 
 		self.screen = pygame.display.set_mode([800, 600])
 
-		#dirName, ownFileName = os.path.split(os.path.abspath(__file__))
+		self.timeDelta = 1 / float(self.FPS)
+		
 		dirName, ownFileName = os.path.split(os.path.abspath(sys.argv[0]))
 		print("dirName: " + dirName)
 		print("ownFileName: " + ownFileName)
-		print(os.path.sep)
-		print sys.argv[0].split(os.path.sep)
 
 	def getControls(self):
 		""" get current controls """
 
 		controlEvents = {}
+
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				controlEvents['Exit'] = True
@@ -33,15 +37,25 @@ class Env:
 
 		return controlEvents
 
-	def displayObjects(self, objects):
-		""" show objects in application window """
+	def displayItems(self, items):
+		""" show items in application window """
+
+		for item in items:
+			getattr(self.screen, item['method'])(item['params'])
 
 		pygame.display.flip()
+
 		return
 
 	def delay(self):
 		""" delay execute by FPS setting """
-		return
+
+		sleepTime = self.timeDelta - time.time() + self.prevTimeMark
+
+		if sleepTime > 0:
+			time.sleep(sleepTime)
+
+		self.prevTimeMark = time.time()
 
 	def hasExitEvent(self, controls):
 		""" get exit event in controls """
