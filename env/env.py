@@ -39,15 +39,19 @@ class Env:
 				self.__clearEvent('bg_lighter')
 
 			if event.type == pygame.KEYDOWN:
+				#print(event.key)
+				#print('down K_UP' + str(pygame.K_UP))
+				#print('down K_DOWN' + str(pygame.K_DOWN))
+
 				arrayKeys = pygame.key.get_pressed()
 				#if arrayKeys[pygame.K_SPACE]:
 				#	print("space pressed")
 				if arrayKeys[pygame.K_ESCAPE]:
 					self.controlEvents['Exit'] = True
 
-				if arrayKeys[pygame.K_UP]:
+				if event.key == pygame.K_UP:
 					self.controlEvents['bg_lighter'] = True
-				if arrayKeys[pygame.K_DOWN]:
+				if event.key == pygame.K_DOWN:
 					self.controlEvents['bg_lighter'] = False
 
 		return self.controlEvents
