@@ -22,7 +22,8 @@ class Items:
 
 		if controls['bg_lighter']:
 			print('add light')
-		else:
+			
+		if controls['bg_darker']:
 			print('dec light')
 
 		#return False

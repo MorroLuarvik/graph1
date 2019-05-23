@@ -10,6 +10,7 @@ class Env:
 	timeDelta = 0.1
 
 	controlEvents = {}
+	events = {}
 
 	def __init__(self):
 		pygame.init()
@@ -32,27 +33,63 @@ class Env:
 				self.controlEvents['Exit'] = True
 			
 			if event.type == pygame.KEYUP:
+				self.__clearEvent(event.key)
+
+				"""
+				if event.key == pygame.K_UP:
+					
+
+				if event.key == pygame.K_DOWN:
+					self.__clearEvent('bg_darker')
+				"""
+
+				"""
 				#if arrayKeys[pygame.K_UP] and arrayKeys[pygame.K_DOWN]:
 				print(event.key)
 				print('K_UP' + str(pygame.K_UP))
 				print('K_DOWN' + str(pygame.K_DOWN))
-				self.__clearEvent('bg_lighter')
+				"""
+				
 
 			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_ESCAPE:
+					self.controlEvents['Exit'] = time.time()
+
+					self.events[event.key] = time.time()
+				
+				"""
+				if event.key == pygame.K_UP:
+					self.events['bg_lighter'] = time.time()
+
+				if event.key == pygame.K_DOWN:
+					self.events['bg_darker'] = time.time()
+				"""
+
 				#print(event.key)
 				#print('down K_UP' + str(pygame.K_UP))
 				#print('down K_DOWN' + str(pygame.K_DOWN))
 
-				arrayKeys = pygame.key.get_pressed()
+				#arrayKeys = pygame.key.get_pressed()
 				#if arrayKeys[pygame.K_SPACE]:
 				#	print("space pressed")
-				if arrayKeys[pygame.K_ESCAPE]:
-					self.controlEvents['Exit'] = True
+				#if arrayKeys[pygame.K_ESCAPE]:
+				#	self.controlEvents['Exit'] = True
 
+				"""
 				if event.key == pygame.K_UP:
 					self.controlEvents['bg_lighter'] = True
 				if event.key == pygame.K_DOWN:
 					self.controlEvents['bg_lighter'] = False
+				"""
+
+			maxTime = 0
+			resultEvent = None
+			for event in self.events:
+				if self.events[event] > maxTime:
+					maxTime = self.events[event]
+					resultEvent = event
+
+		print(self.events)
 
 		return self.controlEvents
 
@@ -60,7 +97,7 @@ class Env:
 		""" remove eventName from self.controlEvents """
 
 		if eventName in self.controlEvents:
-			self.controlEvents.pop(eventName)
+			self.events.pop(eventName)
 
 
 	def displayItems(self, items):
