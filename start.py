@@ -4,6 +4,24 @@
 import pygame
 import time, os, json, sys, datetime
 
+from env import Env
+from objects import Objects
+
+env = Env()
+objects = Objects()
+
+running = True
+while running:
+	controls = env.getControls()
+	objects.updateByControls(controls)
+	env.displayObjects(objects.getObjects())
+	env.delay()
+	running = not(env.hasExitEvent(controls))
+
+env.quit()
+
+exit()
+
 dirName, ownFileName = os.path.split(os.path.abspath(__file__))
 
 pygame.init()
@@ -23,9 +41,9 @@ screen.blit(text, [11, 51])
 
 pygame.display.flip()
 
-print(pygame.display.Info())
+#print(pygame.display.Info())
 
-print(pygame.K_ESCAPE)
+#print(pygame.K_ESCAPE)
 
 running = True
 while running:
