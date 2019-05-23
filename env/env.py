@@ -9,33 +9,55 @@ class Env:
 	prevTimeMark = time.time()
 	timeDelta = 0.1
 
+	controlEvents = {}
+
 	def __init__(self):
 		pygame.init()
 
-		self.screen = pygame.display.set_mode([800, 600])
+		self.screen = pygame.display.set_mode([self.DEF_WIDTH, self.DEF_HEIGHT])
 
 		self.timeDelta = 1 / float(self.FPS)
 		
+		"""
 		dirName, ownFileName = os.path.split(os.path.abspath(sys.argv[0]))
 		print("dirName: " + dirName)
 		print("ownFileName: " + ownFileName)
+		"""
 
 	def getControls(self):
 		""" get current controls """
 
-		controlEvents = {}
-
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
-				controlEvents['Exit'] = True
+				self.controlEvents['Exit'] = True
+			
+			if event.type == pygame.KEYUP:
+				#if arrayKeys[pygame.K_UP] and arrayKeys[pygame.K_DOWN]:
+				print(event.key)
+				print('K_UP' + str(pygame.K_UP))
+				print('K_DOWN' + str(pygame.K_DOWN))
+				self.__clearEvent('bg_lighter')
+
 			if event.type == pygame.KEYDOWN:
 				arrayKeys = pygame.key.get_pressed()
 				#if arrayKeys[pygame.K_SPACE]:
 				#	print("space pressed")
 				if arrayKeys[pygame.K_ESCAPE]:
-					controlEvents['Exit'] = True
+					self.controlEvents['Exit'] = True
 
-		return controlEvents
+				if arrayKeys[pygame.K_UP]:
+					self.controlEvents['bg_lighter'] = True
+				if arrayKeys[pygame.K_DOWN]:
+					self.controlEvents['bg_lighter'] = False
+
+		return self.controlEvents
+
+	def __clearEvent(self, eventName):
+		""" remove eventName from self.controlEvents """
+
+		if eventName in self.controlEvents:
+			self.controlEvents.pop(eventName)
+
 
 	def displayItems(self, items):
 		""" show items in application window """
