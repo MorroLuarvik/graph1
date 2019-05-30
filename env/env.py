@@ -4,7 +4,7 @@ class Env:
 	FONT_PATH = "/res/fonts/tahoma.ttf"
 	DEF_WIDTH = 800
 	DEF_HEIGHT = 600
-	FPS = 60;
+	FPS = 60
 
 	prevTimeMark = time.time()
 	timeDelta = 0.1
