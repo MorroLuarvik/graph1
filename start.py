@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 #-*-coding:utf-8-*-
 
-import pygame
 import time, os, json, sys, datetime
+import pygame
 
 from env import Env
 from items import Items
