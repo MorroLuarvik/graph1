@@ -22,6 +22,8 @@ env.quit()
 
 exit()
 
+#test
+
 dirName, ownFileName = os.path.split(os.path.abspath(__file__))
 
 pygame.init()
