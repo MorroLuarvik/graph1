@@ -12,8 +12,8 @@ class Env(object):
 	DEF_HEIGHT = 600
 	FPS = 60
 
-	prev_time_mark = time.time()
-	time_delta = 0.1
+	prevTimeMark = time.time()
+	timeDelta = 0.1
 
 	controlEvents = {}
 	events = {}
@@ -23,7 +23,7 @@ class Env(object):
 
 		self.screen = pygame.display.set_mode([self.DEF_WIDTH, self.DEF_HEIGHT])
 
-		self.time_delta = 1 / float(self.FPS)
+		self.timeDelta = 1 / float(self.FPS)
 		
 		"""
 		dirName, ownFileName = os.path.split(os.path.abspath(sys.argv[0]))
@@ -31,7 +31,7 @@ class Env(object):
 		print("ownFileName: " + ownFileName)
 		"""
 
-	def getControls(self):
+	def get_controls(self):
 		""" get current controls """
 
 		for event in pygame.event.get():
@@ -84,14 +84,14 @@ class Env(object):
 					self.controlEvents['bg_lighter'] = False
 				"""
 
-			max_time = 0
+			maxTime = 0
 			resultEvent = None
 			for event in self.events:
-				if self.events[event] > max_time:
-					max_time = self.events[event]
+				if self.events[event] > maxTime:
+					maxTime = self.events[event]
 					resultEvent = event
 
-		print(self.events)
+		print self.events
 
 		return self.controlEvents
 
@@ -102,7 +102,7 @@ class Env(object):
 			self.events.pop(eventName)
 
 
-	def displayItems(self, items):
+	def display_items(self, items):
 		""" show items in application window """
 
 		for item in items:
@@ -115,14 +115,14 @@ class Env(object):
 	def delay(self):
 		""" delay execute by FPS setting """
 
-		sleepTime = self.time_delta - time.time() + self.prev_time_mark
+		sleepTime = self.timeDelta - time.time() + self.prevTimeMark
 
 		if sleepTime > 0:
 			time.sleep(sleepTime)
 
-		self.prev_time_mark = time.time()
+		self.prevTimeMark = time.time()
 
-	def hasExitEvent(self, controls):
+	def has_exit_event(self, controls):
 		""" get exit event in controls """
 		if 'Exit' in controls:
 			return controls['Exit']
@@ -130,4 +130,5 @@ class Env(object):
 		return False
 
 	def quit(self):
+		""" close used pygame and afer save config"""
 		pygame.quit()
