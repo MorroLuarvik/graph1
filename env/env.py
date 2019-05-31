@@ -46,15 +46,12 @@ class Env(object):
 
 				if event.key == pygame.K_DOWN:
 					self.__clearEvent('bg_darker')
-				"""
-
-				"""
+				
 				#if arrayKeys[pygame.K_UP] and arrayKeys[pygame.K_DOWN]:
 				print(event.key)
 				print('K_UP' + str(pygame.K_UP))
 				print('K_DOWN' + str(pygame.K_DOWN))
 				"""
-				
 
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_ESCAPE:
