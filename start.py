@@ -1,70 +1,36 @@
 #!/usr/bin/env python
 #-*-coding:utf-8-*-
+"""Main module whes start application"""
 
-import time, os, json, sys, datetime
-import pygame
+#import time, os, json, sys, datetime
+#import pygame
 
 from env import Env
 from items import Items
 
-env = Env()
-items = Items()
+class GameLoop(object):
+	"""Main class - main process"""
 
-running = True
-while running:
-	controls = env.getControls()
-	items.updateByControls(controls)
-	env.displayItems(items.getItems())
-	env.delay()
-	running = not(env.hasExitEvent(controls))
+	def __init__(self):
+		"""initialization class"""
+		self.env = Env()
+		self.items = Items()
 
-env.quit()
+	def run(self):
+		"""Let's go"""
+		running = True
+		while running:
+			controls = self.env.get_controls()
+			self.items.updateByControls(controls)
+			self.env.displayItems(self.items.getItems())
+			self.env.delay()
+			running = not self.env.hasExitEvent(controls)
 
+		self.env.quit()
+
+if __name__ == "__main__":
+	proc = GameLoop()
+	proc.run()
+
+print "Bye!"
 exit()
-
-#test
-
-dirName, ownFileName = os.path.split(os.path.abspath(__file__))
-
-pygame.init()
-screen = pygame.display.set_mode([800, 600])
-
-screen.fill([255, 255, 255])
-
-
-#pygame.display.flip()
-
-#mainFont = pygame.font.Font(None, 12)
-mainFont = pygame.font.Font(dirName + '/res/fonts/tahoma.ttf', 24)
-text = mainFont.render(u'Hello привет, ребята!', 1, (0, 0, 0))
-screen.blit(text, [10, 50])
-
-screen.blit(text, [11, 51])
-
-pygame.display.flip()
-
-#print(pygame.display.Info())
-
-#print(pygame.K_ESCAPE)
-
-running = True
-while running:
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT:
-			running = False
-		if event.type == pygame.KEYDOWN:
-			arrayKeys = pygame.key.get_pressed()
-			if arrayKeys[pygame.K_SPACE]:
-				print("space pressed")
-			if arrayKeys[pygame.K_ESCAPE]:
-				running = False
-
-pygame.quit()
-
-"""
-load params
-init modules
-
-while running:
-
-"""

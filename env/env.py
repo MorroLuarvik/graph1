@@ -25,13 +25,12 @@ class Env:
 		print("ownFileName: " + ownFileName)
 		"""
 
-	def getControls(self):
+	def get_controls(self):
 		""" get current controls """
 
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				self.controlEvents['Exit'] = True
-			
 			if event.type == pygame.KEYUP:
 				self.__clearEvent(event.key)
 
