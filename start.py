@@ -20,7 +20,7 @@ class GameLoop(object):
 		"""Let's go"""
 		running = True
 		while running:
-			controls = self.env.get_controls()
+			controls = self.env.getControls()
 			self.items.updateByControls(controls)
 			self.env.displayItems(self.items.getItems())
 			self.env.delay()

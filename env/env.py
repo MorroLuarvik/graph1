@@ -1,13 +1,19 @@
-import os, json, pygame, sys, time
+#!/usr/bin/env python
+#-*-coding:utf-8-*-
+"""Envueroment module with resources and controls input"""
 
-class Env:
+import os, json, sys, time
+import pygame
+
+class Env(object):
+	""" enveroment class where loading resourses and working with controls"""
 	FONT_PATH = "/res/fonts/tahoma.ttf"
 	DEF_WIDTH = 800
 	DEF_HEIGHT = 600
 	FPS = 60
 
-	prevTimeMark = time.time()
-	timeDelta = 0.1
+	prev_time_mark = time.time()
+	time_delta = 0.1
 
 	controlEvents = {}
 	events = {}
@@ -17,7 +23,7 @@ class Env:
 
 		self.screen = pygame.display.set_mode([self.DEF_WIDTH, self.DEF_HEIGHT])
 
-		self.timeDelta = 1 / float(self.FPS)
+		self.time_delta = 1 / float(self.FPS)
 		
 		"""
 		dirName, ownFileName = os.path.split(os.path.abspath(sys.argv[0]))
@@ -25,7 +31,7 @@ class Env:
 		print("ownFileName: " + ownFileName)
 		"""
 
-	def get_controls(self):
+	def getControls(self):
 		""" get current controls """
 
 		for event in pygame.event.get():
@@ -81,11 +87,11 @@ class Env:
 					self.controlEvents['bg_lighter'] = False
 				"""
 
-			maxTime = 0
+			max_time = 0
 			resultEvent = None
 			for event in self.events:
-				if self.events[event] > maxTime:
-					maxTime = self.events[event]
+				if self.events[event] > max_time:
+					max_time = self.events[event]
 					resultEvent = event
 
 		print(self.events)
@@ -112,12 +118,12 @@ class Env:
 	def delay(self):
 		""" delay execute by FPS setting """
 
-		sleepTime = self.timeDelta - time.time() + self.prevTimeMark
+		sleepTime = self.time_delta - time.time() + self.prev_time_mark
 
 		if sleepTime > 0:
 			time.sleep(sleepTime)
 
-		self.prevTimeMark = time.time()
+		self.prev_time_mark = time.time()
 
 	def hasExitEvent(self, controls):
 		""" get exit event in controls """
