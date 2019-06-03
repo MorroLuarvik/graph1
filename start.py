@@ -13,8 +13,8 @@ class GameLoop(object):
 
 	def __init__(self):
 		"""initialization class"""
-		self.env = Env()
 		self.items = Items()
+		self.env = Env()
 
 	def run(self):
 		"""Let's go"""

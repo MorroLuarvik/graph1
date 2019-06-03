@@ -18,18 +18,17 @@ class Env(object):
 	controlEvents = {}
 	events = {}
 
+	bindingEvents = {pygame.K_UP: 'up', pygame.K_DOWN: 'down', pygame.K_LEFT: 'left', pygame.K_RIGHT: 'right', pygame.K_ESCAPE: 'Exit'}
+	concurentEvents = [{'up', 'donw'}, {'left', 'right'}]
+
+	#dirName, ownFileName = os.path.split(os.path.abspath(sys.argv[0]))
+
 	def __init__(self):
 		pygame.init()
 
 		self.screen = pygame.display.set_mode([self.DEF_WIDTH, self.DEF_HEIGHT])
 
 		self.timeDelta = 1 / float(self.FPS)
-		
-		"""
-		dirName, ownFileName = os.path.split(os.path.abspath(sys.argv[0]))
-		print("dirName: " + dirName)
-		print("ownFileName: " + ownFileName)
-		"""
 
 	def get_controls(self):
 		""" get current controls """
@@ -37,65 +36,37 @@ class Env(object):
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				self.controlEvents['Exit'] = True
+
+			# get release keys
 			if event.type == pygame.KEYUP:
-				self.__clearEvent(event.key)
+				self.__clear_event(event.key)
 
-				"""
-				if event.key == pygame.K_UP:
-					
-
-				if event.key == pygame.K_DOWN:
-					self.__clearEvent('bg_darker')
-				
-				#if arrayKeys[pygame.K_UP] and arrayKeys[pygame.K_DOWN]:
-				print(event.key)
-				print('K_UP' + str(pygame.K_UP))
-				print('K_DOWN' + str(pygame.K_DOWN))
-				"""
-
+			# get pressed keys
 			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_ESCAPE:
-					self.controlEvents['Exit'] = time.time()
+				self.events[event.key] = time.time()
+				#if event.key == pygame.K_ESCAPE:
+				#	self.controlEvents['Exit'] = time.time()
 
-					self.events[event.key] = time.time()
-				
-				"""
-				if event.key == pygame.K_UP:
-					self.events['bg_lighter'] = time.time()
+		
+		for bindedEvent, controlEvent in self.bindingEvents:
+			if bindedEvent in self.events:
+				self.controlEvents[controlEvent] = True
 
-				if event.key == pygame.K_DOWN:
-					self.events['bg_darker'] = time.time()
-				"""
-
-				#print(event.key)
-				#print('down K_UP' + str(pygame.K_UP))
-				#print('down K_DOWN' + str(pygame.K_DOWN))
-
-				#arrayKeys = pygame.key.get_pressed()
-				#if arrayKeys[pygame.K_SPACE]:
-				#	print("space pressed")
-				#if arrayKeys[pygame.K_ESCAPE]:
-				#	self.controlEvents['Exit'] = True
-
-				"""
-				if event.key == pygame.K_UP:
-					self.controlEvents['bg_lighter'] = True
-				if event.key == pygame.K_DOWN:
-					self.controlEvents['bg_lighter'] = False
-				"""
-
+		"""
 			maxTime = 0
 			resultEvent = None
 			for event in self.events:
 				if self.events[event] > maxTime:
 					maxTime = self.events[event]
 					resultEvent = event
+		"""
 
-		print self.events
+		#print self.events
+		print self.controlEvents
 
 		return self.controlEvents
 
-	def __clearEvent(self, eventName):
+	def __clear_event(self, eventName):
 		""" remove eventName from self.controlEvents """
 
 		if eventName in self.controlEvents:
