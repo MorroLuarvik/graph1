@@ -30,18 +30,11 @@ class Controls(object):
 				#if event.key == pygame.K_ESCAPE:
 				#	self.controlEvents['Exit'] = time.time()
 
+		self.events = self.__remove_concurent_events(self.events, self.concurentEvents)
+
 		for bindedEvent, controlEvent in self.bindingEvents.iteritems():
 			if bindedEvent in self.events:
 				self.controlEvents[controlEvent] = True
-
-		"""
-			maxTime = 0
-			resultEvent = None
-			for event in self.events:
-				if self.events[event] > maxTime:
-					maxTime = self.events[event]
-					resultEvent = event
-		"""
 
 		#print self.events
 		print self.controlEvents
@@ -53,3 +46,35 @@ class Controls(object):
 
 		if eventName in self.controlEvents:
 			self.events.pop(eventName)
+
+	def __remove_concurent_events(self, events, concurentEvents):
+		""" remove concurent event from list """
+		for inputCode in events:
+			if inputCode in self.bindingEvents:
+				if self.__in_concurent(inputCode, concurentEvents):
+					events = self.__clear_concurent(events, inputCode, self.__get_counurent_codes(inputCode, concurentEvents))
+			else:
+				events.pop(inputCode)
+
+		return events
+
+	def __in_concurent(self, code, concurentEvents):
+		""" check entereded code in concurent sets """
+		for setOfActions in concurentEvents:
+			if self.bindingEvents[code] in setOfActions:
+				return True
+
+		return False
+
+	def __get_counurent_codes(self, code, concurentEvents):
+		""" get codes of concurecnt evenst """
+		for setOfActions in concurentEvents:
+			if self.bindingEvents[code] in setOfActions:
+				ret = ()
+				for action in setOfActions:
+					for addCode in self.bindingEvents:
+						if self.bindingEvents[addCode] == action:
+							ret += (addCode)
+				return ret
+
+		return ()
