@@ -7,6 +7,7 @@
 
 from env import Env
 from items import Items
+from controls import Controls
 
 class GameLoop(object):
 	"""Main class - main process"""
@@ -15,12 +16,13 @@ class GameLoop(object):
 		"""initialization class"""
 		self.items = Items()
 		self.env = Env()
+		self.controls = Controls()
 
 	def run(self):
 		"""Let's go"""
 		running = True
 		while running:
-			controls = self.env.get_controls()
+			controls = self.controls.get_controls()
 			self.items.update_by_controls(controls)
 			self.env.display_items(self.items.get_items())
 			self.env.delay()
