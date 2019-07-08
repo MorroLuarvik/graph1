@@ -23,15 +23,13 @@ class Controls(object):
 
 			# get release keys
 			if event.type == pygame.KEYUP:
-				self.__clear_event(event.key)
+				self.events = self.__clear_event(self.events, event.key)
 
 			# get pressed keys
 			if event.type == pygame.KEYDOWN:
 				self.events[event.key] = time.time()
-				#if event.key == pygame.K_ESCAPE:
-				#	self.controlEvents['Exit'] = time.time()
 
-		self.events = self.__remove_concurent_events(self.events, self.concurentEvents)
+		#self.events = self.__remove_concurent_events(self.events, self.concurentEvents)
 
 		for bindedEvent, controlEvent in self.bindingEvents.iteritems():
 			if bindedEvent in self.events:
@@ -42,11 +40,13 @@ class Controls(object):
 
 		return controlEvents
 
-	def __clear_event(self, eventName):
+	def __clear_event(self, events, eventCode):
 		""" remove eventName from self.controlEvents """
 
-		if eventName in self.events:
-			self.events.pop(eventName)
+		if eventCode in events:
+			events.pop(eventCode)
+		
+		return events
 
 	def __remove_concurent_events(self, events, concurentEvents):
 		""" remove concurent event from list """
