@@ -36,7 +36,7 @@ class Controls(object):
 				controlEvents[controlEvent] = True
 
 		#print self.events
-		print controlEvents
+		#print controlEvents
 
 		return controlEvents
 
