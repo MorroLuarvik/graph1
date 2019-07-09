@@ -28,7 +28,7 @@ class Env(object):
 		""" show items in application window """
 
 		for item in items:
-			getattr(self.screen, item['method'])(**item['params'])
+			item.display(self.screen)
 
 		pygame.display.flip()
 
@@ -38,6 +38,8 @@ class Env(object):
 		""" delay execute by FPS setting """
 
 		sleepTime = self.timeDelta - time.time() + self.prevTimeMark
+
+		print sleepTime
 
 		if sleepTime > 0:
 			time.sleep(sleepTime)
