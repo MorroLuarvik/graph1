@@ -29,8 +29,8 @@ class GameLoop(object):
 		self.env.quit()
 
 if __name__ == "__main__":
-	proc = GameLoop()
-	proc.run()
+	PROC = GameLoop()
+	PROC.run()
 
 print "Bye!"
 exit()
