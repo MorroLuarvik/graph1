@@ -10,16 +10,10 @@ class Env(object):
 	FONT_PATH = "/res/fonts/tahoma.ttf"
 	DEF_WIDTH = 800
 	DEF_HEIGHT = 600
-	FPS = 60
+	FPS = 20 #60
 
 	prevTimeMark = time.time()
 	timeDelta = 0.1
-
-	controlEvents = {}
-	events = {}
-
-	bindingEvents = {pygame.K_UP: 'up', pygame.K_DOWN: 'down', pygame.K_LEFT: 'left', pygame.K_RIGHT: 'right', pygame.K_ESCAPE: 'Exit'}
-	concurentEvents = [{'up', 'donw'}, {'left', 'right'}]
 
 	#dirName, ownFileName = os.path.split(os.path.abspath(sys.argv[0]))
 
@@ -29,49 +23,6 @@ class Env(object):
 		self.screen = pygame.display.set_mode([self.DEF_WIDTH, self.DEF_HEIGHT])
 
 		self.timeDelta = 1 / float(self.FPS)
-
-	def get_controls(self):
-		""" get current controls """
-
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT:
-				self.controlEvents['Exit'] = True
-
-			# get release keys
-			if event.type == pygame.KEYUP:
-				self.__clear_event(event.key)
-
-			# get pressed keys
-			if event.type == pygame.KEYDOWN:
-				self.events[event.key] = time.time()
-				#if event.key == pygame.K_ESCAPE:
-				#	self.controlEvents['Exit'] = time.time()
-
-		
-		for bindedEvent, controlEvent in self.bindingEvents:
-			if bindedEvent in self.events:
-				self.controlEvents[controlEvent] = True
-
-		"""
-			maxTime = 0
-			resultEvent = None
-			for event in self.events:
-				if self.events[event] > maxTime:
-					maxTime = self.events[event]
-					resultEvent = event
-		"""
-
-		#print self.events
-		print self.controlEvents
-
-		return self.controlEvents
-
-	def __clear_event(self, eventName):
-		""" remove eventName from self.controlEvents """
-
-		if eventName in self.controlEvents:
-			self.events.pop(eventName)
-
 
 	def display_items(self, items):
 		""" show items in application window """

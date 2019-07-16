@@ -23,12 +23,29 @@ class Items(object):
 
 	def update_by_controls(self, ctrl):
 		""" update item by controlas at current version will be used pygame.K_UP pygame.K_DOWN """
-		if not 'bg_lighter' in ctrl:
-			return
+		#if not 'bg_lighter' in ctrl:
+		#	return
 
-		if ctrl['bg_lighter']:
-			print 'add light'
-		if ctrl['bg_darker']:
-			print 'dec light'
+		if 'up' in ctrl:
+			self.__inc_light()
+		if 'down' in ctrl:
+			self.__dec_light()
 		return False
 
+	def __inc_light(self):
+		""" increase background color """
+		color = self.items[0]['params'][0]
+		color += 1
+		if color > 255:
+			color = 255
+		print color
+		self.items[0]['params'] = [color, color, color]
+	
+	def __dec_light(self):
+		""" increase background color """
+		color = self.items[0]['params'][0]
+		color -= 1
+		print color	
+		if color < 0:
+			color = 0
+		self.items[0]['params'] = [color, color, color]
