@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #-*-coding:utf-8-*-
-"""Main module whes start application"""
+""" Main module when start application """
 
 #import time, os, json, sys, datetime
 #import pygame

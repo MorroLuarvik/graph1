@@ -2,50 +2,48 @@
 #-*-coding:utf-8-*-
 """Items module with resources about display items"""
 
-#import os
-#import json
-#import sys
-
+from .bg import Bg
+from .player import Player
 
 class Items(object):
 	""" application items collections """
+
+	playerImage = None
+	playerImagePath = "/res/persons/officeman1.png"
 
 	items = []
 	conflictedEvents = []
 
 	def __init__(self):
-		self.items = [{'name': 'bg', 'method': 'fill', 'params': [155, 155, 155]}]
-		self.conflictedEvents = [{'up', 'down'}, {'left', 'right'}]
+		""" init items """
+
+		self.items.append(Bg())
+		self.items.append(Player())
+		self.items.append(Player(230, 90, "officewoman3.png"))
+		self.items.append(Player(30, 160, "officewoman1.png"))
+		self.items.append(Player(330, 200, "pinkbat.png"))
+		self.items[4].isAnimate = True
 
 	def get_items(self):
 		""" just return items """
-		return self.items
+		return sorted(self.items, key = lambda player: player.y)
 
 	def update_by_controls(self, ctrl):
-		""" update item by controlas at current version will be used pygame.K_UP pygame.K_DOWN """
-		#if not 'bg_lighter' in ctrl:
-		#	return
+		""" update item by controlas at current version will be used up and down controls """
 
 		if 'up' in ctrl:
-			self.__inc_light()
-		if 'down' in ctrl:
-			self.__dec_light()
-		return False
+			self.items[1].move_up()
 
-	def __inc_light(self):
-		""" increase background color """
-		color = self.items[0]['params'][0]
-		color += 1
-		if color > 255:
-			color = 255
-		print color
-		self.items[0]['params'] = [color, color, color]
-	
-	def __dec_light(self):
-		""" increase background color """
-		color = self.items[0]['params'][0]
-		color -= 1
-		print color	
-		if color < 0:
-			color = 0
-		self.items[0]['params'] = [color, color, color]
+		if 'down' in ctrl:
+			self.items[1].move_down()
+
+		if 'left' in ctrl:
+			self.items[1].move_left()
+
+		if 'right' in ctrl:
+			self.items[1].move_right()
+
+		if ctrl == {}:
+			self.items[1].stop_animate()
+
+		return

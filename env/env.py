@@ -10,7 +10,7 @@ class Env(object):
 	FONT_PATH = "/res/fonts/tahoma.ttf"
 	DEF_WIDTH = 800
 	DEF_HEIGHT = 600
-	FPS = 20 #60
+	FPS = 60 #60
 
 	prevTimeMark = time.time()
 	timeDelta = 0.1
@@ -28,7 +28,7 @@ class Env(object):
 		""" show items in application window """
 
 		for item in items:
-			getattr(self.screen, item['method'])(item['params'])
+			item.display(self.screen)
 
 		pygame.display.flip()
 
@@ -38,6 +38,8 @@ class Env(object):
 		""" delay execute by FPS setting """
 
 		sleepTime = self.timeDelta - time.time() + self.prevTimeMark
+
+		print sleepTime
 
 		if sleepTime > 0:
 			time.sleep(sleepTime)
