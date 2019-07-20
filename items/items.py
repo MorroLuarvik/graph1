@@ -24,8 +24,8 @@ class Items(object):
 		self.items.append(Bg())
 		self.items.append(self.player)
 		self.items.append(Player(230, 90, "officewoman3.png"))
-		self.items.append(Player(330, 200, "pinkbat.png"))
-		self.items[3].isAnimate = True
+		self.items.append(Player(330, 200, "pinkbat.png", True))
+		self.items[3].allwaysAnimate = True
 
 		self.items.append(Player(random.randint(0, 800), random.randint(0, 600), "officewoman1.png", True))
 		self.items.append(Player(random.randint(0, 800), random.randint(0, 600), "officewoman4.png", True))

@@ -18,13 +18,15 @@ class Player(Bg):
 	width = 32
 	height = 48
 	busyWidth = 24
-	busyHeight = 20
+	busyHeight = 16
 	canCollision = True
 
 	playerImage = None
 	playerImagePath = "/res/persons/"
 
 	isAnimate = False
+	allwaysAnimate = False
+	
 	enabledAI = False
 	stage = 0
 	maxStages = 4
@@ -70,16 +72,16 @@ class Player(Bg):
 
 			moveFlag = False
 
-			if self.x < self.targetX:
+			if self.x < self.targetX and not moveFlag:
 				moveFlag |= self.move_right(items)
 
-			if self.x > self.targetX:
+			if self.x > self.targetX and not moveFlag:
 				moveFlag |= self.move_left(items)
 
-			if self.y < self.targetY:
+			if self.y < self.targetY and not moveFlag:
 				moveFlag |= self.move_down(items)
 
-			if self.y > self.targetY:
+			if self.y > self.targetY and not moveFlag:
 				moveFlag |= self.move_up(items)
 
 			if self.y == self.targetY and self.x == self.targetX:
@@ -146,6 +148,9 @@ class Player(Bg):
 
 
 	def stop_animate(self):
+		if self.allwaysAnimate:
+			return
+
 		self.isAnimate = False
 		self.stage = 0
 
