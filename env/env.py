@@ -28,6 +28,8 @@ class Env(object):
 		""" show items in application window """
 
 		for item in items:
+			item.action()
+			item.animate()
 			item.display(self.screen)
 
 		pygame.display.flip()

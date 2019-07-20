@@ -17,5 +17,16 @@ class Bg(object):
 
 	def display(self, screen):
 		""" display object on screen """
-
 		screen.fill(self.bgColor)
+
+	def get_z_index(self):
+		""" return z index for dispaly sort """
+		return -1
+
+	def action(self):
+		""" display object on screen """
+		return
+
+	def animate(self):
+		""" display object on screen """
+		return

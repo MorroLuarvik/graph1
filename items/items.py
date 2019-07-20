@@ -5,6 +5,8 @@
 from .bg import Bg
 from .player import Player
 
+import random
+
 class Items(object):
 	""" application items collections """
 
@@ -17,33 +19,41 @@ class Items(object):
 	def __init__(self):
 		""" init items """
 
+		self.player = Player()
+
 		self.items.append(Bg())
-		self.items.append(Player())
+		self.items.append(self.player)
 		self.items.append(Player(230, 90, "officewoman3.png"))
-		self.items.append(Player(30, 160, "officewoman1.png"))
 		self.items.append(Player(330, 200, "pinkbat.png"))
-		self.items[4].isAnimate = True
+		self.items[3].isAnimate = True
+
+		self.items.append(Player(random.randint(0, 800), random.randint(0, 600), "officewoman1.png", True))
+		self.items.append(Player(random.randint(0, 800), random.randint(0, 600), "officewoman4.png", True))
+		self.items.append(Player(random.randint(0, 800), random.randint(0, 600), "officewoman5.png", True))
+		self.items.append(Player(random.randint(0, 800), random.randint(0, 600), "officewoman6.png", True))
+		self.items.append(Player(random.randint(0, 800), random.randint(0, 600), "officeman2.png", True))
+		self.items.append(Player(random.randint(0, 800), random.randint(0, 600), "officeman3.png", True))
 
 	def get_items(self):
 		""" just return items """
-		return sorted(self.items, key = lambda player: player.y)
+		return sorted(self.items, key = lambda Bg: Bg.get_z_index())
 
 	def update_by_controls(self, ctrl):
 		""" update item by controlas at current version will be used up and down controls """
 
 		if 'up' in ctrl:
-			self.items[1].move_up()
+			self.player.move_up()
 
 		if 'down' in ctrl:
-			self.items[1].move_down()
+			self.player.move_down()
 
 		if 'left' in ctrl:
-			self.items[1].move_left()
+			self.player.move_left()
 
 		if 'right' in ctrl:
-			self.items[1].move_right()
+			self.player.move_right()
 
 		if ctrl == {}:
-			self.items[1].stop_animate()
+			self.player.stop_animate()
 
 		return
