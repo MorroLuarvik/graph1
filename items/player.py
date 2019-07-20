@@ -17,6 +17,9 @@ class Player(Bg):
 
 	width = 32
 	height = 48
+	busyWidth = 24
+	busyHeight = 20
+	canCollision = True
 
 	playerImage = None
 	playerImagePath = "/res/persons/"
@@ -33,7 +36,7 @@ class Player(Bg):
 	targetY = None
 	sleepTimer = None
 
-	maxSleepTime = 100
+	maxSleepTime = 300
 	maxTargetX = 760
 	maxTargetY = 550
 
@@ -47,13 +50,15 @@ class Player(Bg):
 		self.enabledAI = enabledAI
 
 		print dirName + self.playerImagePath + imageFile
+		self.imageFile = imageFile
 
-	def action(self):
+	def action(self, items):
 		if not self.enabledAI:
 			return
-
+		
 		if self.sleepTimer is not None:
 			#print "sleep " + str(self.sleepTimer)
+			self.direction = 0
 			self.stop_animate()
 			self.sleepTimer -= 1
 			if self.sleepTimer <= 0:
@@ -62,15 +67,26 @@ class Player(Bg):
 
 		if self.targetX is not None:
 			#print "move to " + str(self.targetX) + ', ' + str(self.targetY)
+
+			moveFlag = False
+
 			if self.x < self.targetX:
-				self.move_right()
+				moveFlag |= self.move_right(items)
+
 			if self.x > self.targetX:
-				self.move_left()
+				moveFlag |= self.move_left(items)
+
 			if self.y < self.targetY:
-				self.move_down()
+				moveFlag |= self.move_down(items)
+
 			if self.y > self.targetY:
-				self.move_up()
+				moveFlag |= self.move_up(items)
+
 			if self.y == self.targetY and self.x == self.targetX:
+				self.targetX = None
+				self.targetY = None
+			
+			if not moveFlag:
 				self.targetX = None
 				self.targetY = None
 			return
@@ -82,7 +98,21 @@ class Player(Bg):
 		self.targetX = random.randint(0, self.maxTargetX)
 		self.targetY = random.randint(0, self.maxTargetY)
 
+	def get_busy_min_x(self):
+		""" get_busy_min_x """
+		return self.x
 
+	def get_busy_max_x(self):
+		""" get_busy_max_x """
+		return self.x + self.busyWidth
+
+	def get_busy_min_y(self):
+		""" get_busy_min_y """
+		return self.y + self.height - self.busyHeight
+
+	def get_busy_max_y(self):
+		""" get_busy_min_y """
+		return self.y + self.height
 
 	def animate(self):
 		""" internal control and animate """
@@ -102,30 +132,67 @@ class Player(Bg):
 		""" return z index for dispaly sort """
 		return self.y
 
+	def has_collision(self, items):
+		for item in items:
+			if item == self:
+				continue
+			if not item.canCollision:
+				continue
+			#print "compare " + self.imageFile + " width " + item.imageFile
+			if self.get_busy_min_x() <= item.get_busy_max_x() and self.get_busy_max_x() >= item.get_busy_min_x() and self.get_busy_min_y() <= item.get_busy_max_y() and self.get_busy_max_y() >= item.get_busy_min_y():
+				#print str(self.get_busy_min_x()) + '<=' + str(item.get_busy_max_x()) + ' and ' + str(self.get_busy_max_x()) + '>=' + str(item.get_busy_min_x()) + ' and ' + str(self.get_busy_min_y()) + '<=' + str(item.get_busy_max_y()) + ' and ' + str(self.get_busy_max_y()) + '>=' + str(item.get_busy_min_y())
+				return True
+		return False
+
+
 	def stop_animate(self):
 		self.isAnimate = False
 		self.stage = 0
 
-	def move_up(self):
+	def move_up(self, items):
 		self.isAnimate = True
 		self.direction = 3
 		self.y -= 1
 		if self.y < 0:
 			self.y = 0
+		
+		if self.has_collision(items):
+			self.y += 1
+			return False
+		
+		return True
 
-	def move_down(self):
+	def move_down(self, items):
 		self.isAnimate = True
 		self.direction = 0
 		self.y += 1
+		
+		if self.has_collision(items):
+			self.y -= 1
+			return False
+		
+		return True
 
-	def move_left(self):
+	def move_left(self, items):
 		self.isAnimate = True
 		self.direction = 1
 		self.x -= 1
 		if self.x < 0:
 			self.x = 0
+		
+		if self.has_collision(items):
+			self.x += 1
+			return False
 
-	def move_right(self):
+		return True
+
+	def move_right(self, items):
 		self.isAnimate = True
 		self.direction = 2
 		self.x += 1
+		
+		if self.has_collision(items):
+			self.x -= 1
+			return False
+
+		return True

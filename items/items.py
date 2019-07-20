@@ -42,16 +42,16 @@ class Items(object):
 		""" update item by controlas at current version will be used up and down controls """
 
 		if 'up' in ctrl:
-			self.player.move_up()
+			self.player.move_up(self.items)
 
 		if 'down' in ctrl:
-			self.player.move_down()
+			self.player.move_down(self.items)
 
 		if 'left' in ctrl:
-			self.player.move_left()
+			self.player.move_left(self.items)
 
 		if 'right' in ctrl:
-			self.player.move_right()
+			self.player.move_right(self.items)
 
 		if ctrl == {}:
 			self.player.stop_animate()

@@ -28,7 +28,7 @@ class Env(object):
 		""" show items in application window """
 
 		for item in items:
-			item.action()
+			item.action(items)
 			item.animate()
 			item.display(self.screen)
 

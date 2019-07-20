@@ -6,8 +6,8 @@ import pygame
 
 class Bg(object):
 	""" bg object """
-	y = -1
 	bgColor = [100, 250, 100]
+	canCollision = False	
 
 	def __init__(self, bg_color = [100, 100, 100]):
 		""" init palyer image """
@@ -23,7 +23,7 @@ class Bg(object):
 		""" return z index for dispaly sort """
 		return -1
 
-	def action(self):
+	def action(self, items):
 		""" display object on screen """
 		return
 
