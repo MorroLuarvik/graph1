@@ -164,7 +164,7 @@ class Player(Bg):
 		if self.has_collision(items):
 			self.y += 1
 			return False
-		
+
 		return True
 
 	def move_down(self, items):
